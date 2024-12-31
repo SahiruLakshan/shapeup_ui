@@ -26,43 +26,59 @@
       }
       .sidebar {
         background-color: #fff;
-        height: 100vh;
+        height: auto;
         padding: 20px;
         border-right: 1px solid #e0e0e0;
       }
+
       .sidebar .nav-link {
         color: #333;
         font-weight: 500;
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px; /* Increases space between menu items */
       }
+
+      .sidebar .nav-link i {
+        margin-right: 15px; /* Adds space between the icon and the text */
+        font-size: 18px; /* Optional: Adjust icon size */
+      }
+
       .sidebar .nav-link.active {
         color: #007bff;
       }
+
       .sidebar .nav-link:hover {
         color: #007bff;
       }
+
       .content {
         padding: 20px;
       }
       .header {
         background-color: #e3f2fd;
         padding: 10px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        border-radius: 15px;
       }
-      .header .search-bar {
-        width: 300px;
+
+      .header a {
+        font-size: 16px;
       }
-      .header .user-info {
-        display: flex;
-        align-items: center;
+
+      .header .fa-bell {
+        font-size: 18px;
       }
+
       .header .user-info img {
-        border-radius: 50%;
         width: 40px;
         height: 40px;
-        margin-right: 10px;
       }
+
+      .header .position-relative span {
+        width: 10px;
+        height: 10px;
+      }
+
       .card {
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -75,6 +91,36 @@
       .card-body {
         padding: 10px;
       }
+      .calendar .bg-today {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 50%;
+      }
+      .calendar td {
+        height: 50px;
+        vertical-align: middle;
+      }
+      .employee {
+        background-color: #007bff;
+        border-radius: 20px;
+        color: #fff;
+      }
+      .search-bar {
+        background-color: #f0f8ff; /* Light blue background */
+        border-radius: 20px; /* Rounded corners */
+        border: 1px solid transparent; /* Removes visible border */
+        padding: 10px 15px; /* Adjust padding for a clean look */
+        font-size: 16px; /* Adjust text size */
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
+        width: 250px;
+      }
+
+      .search-bar:focus {
+        outline: none; /* Remove default outline */
+        border: 1px solid #007bff; /* Highlight border on focus */
+        box-shadow: 0px 2px 6px rgba(0, 123, 255, 0.3); /* Add shadow on focus */
+      }
+
       .graph {
         height: 400px;
       }
@@ -224,12 +270,7 @@
     <div class="d-flex flex-column flex-lg-row">
       <div class="sidebar p-3">
         <div class="text-center mb-4">
-          <img
-            alt="ShapeUP Logo"
-            height="50"
-            src="https://storage.googleapis.com/a1aa/image/fdXeme8ymvX1To2VwKXpZyG8MaL3S4HHzVQ5PL4Q20dKLmAoA.jpg"
-            width="100"
-          />
+          <img alt="ShapeUP Logo" height="80" src="logo.jpg" width="160" />
         </div>
         <nav class="nav flex-column">
           <a class="nav-link active" href="#"
@@ -261,27 +302,27 @@
         </nav>
       </div>
       <div class="content flex-grow-1">
-        <div class="header d-flex justify-content-between align-items-center">
-          <div>
-            <h5>
-              Hello
-              <span class="text-primary"> User </span>
-              , welcome back!
-            </h5>
-          </div>
-          <div class="search-bar">
-            <input class="form-control" placeholder="Search" type="text" />
-          </div>
-          <div class="d-flex align-items-center">
-            <a class="text-decoration-none text-dark me-3" href="#"> Home </a>
-            <a class="text-decoration-none text-dark me-3" href="#">
-              Contact Us
-            </a>
-            <a class="text-decoration-none text-dark me-3" href="#">
-              <i class="fas fa-bell"> </i>
+        <nav class="header d-flex justify-content-between align-items-center">
+          <!-- Left Section -->
+          <div class="left-section d-flex align-items-center">
+            <a class="text-decoration-none text-primary me-4" href="#">Home</a>
+            <a class="text-decoration-none text-primary me-4" href="#"
+              >Contact Us</a
+            >
+            <a
+              class="text-decoration-none text-dark position-relative"
+              href="#"
+            >
+              <i class="fas fa-bell"></i>
+              <!-- Notification Badge -->
+              <span
+                class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
+              ></span>
             </a>
           </div>
-          <div class="user-info">
+
+          <!-- Right Section -->
+          <div class="right-section user-info d-flex align-items-center">
             <div class="dropdown">
               <a
                 aria-expanded="false"
@@ -292,30 +333,42 @@
               >
                 <img
                   alt="User Image"
-                  height="40"
                   src="https://storage.googleapis.com/a1aa/image/Zgjk9U9UeZVcBqnKcRT5G244fEXqhACluBK5zcs55VQoFTAUA.jpg"
-                  width="40"
+                  class="rounded-circle"
                 />
-                <span> Admin </span>
+                <span class="ms-2">Admin</span>
               </a>
               <ul
-                aria-labelledby="userDropdown"
                 class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="userDropdown"
               >
-                <li>
-                  <a class="dropdown-item" href="#"> Profile </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#"> Logout </a>
-                </li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Logout</a></li>
               </ul>
             </div>
           </div>
+        </nav>
+        <div class="mt-4">
+          <h6 style="color: #007bff">Hello <b>User</b>, Welcome Back!</h6>
         </div>
         <div class="mt-4">
-          <h3>Dashboard</h3>
+          <div class="d-flex align-items-center justify-content-between">
+            <h3 class="me-3">Dashboard</h3>
+            <div class="w-100">
+              <input
+                type="text"
+                class="form-control search-bar"
+                placeholder="Search"
+                aria-label="Search"
+              />
+            </div>
+          </div>
+
           <div class="row mt-4">
-            <div class="col-lg-7">
+            <div
+              class="col-lg-7 border-end pe-4"
+              style="border-right: 1px solid #ccc; height: 100%"
+            >
               <div class="card mb-5 graph">
                 <div class="card-body">
                   <div class="container mt-5">
@@ -337,18 +390,25 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-5">
-              <div class="card mb-4">
-                <div class="card-body text-center">
-                  <h5>Total Employees</h5>
-                  <h1 class="display-4">22</h1>
+
+            <div class="col-lg-5 ps-4">
+              <div class="card mb-4 employee">
+                <div class="card-body">
+                  <h3 class="mt-2">Total Employees</h3>
+                  <p class="display-6 float-end mb-2">22</p>
                 </div>
               </div>
               <div class="row mb-3">
                 <h5 style="font-weight: bold">Today</h5>
                 <div class="col-4">
                   <div class="stats-card green">
-                    <p style="font-size: small; margin-bottom: 10px">
+                    <p
+                      style="
+                        font-size: small;
+                        margin-bottom: 10px;
+                        font-weight: bold;
+                      "
+                    >
                       Attendance
                     </p>
                     <div class="stats">
@@ -367,7 +427,9 @@
                 </div>
                 <div class="col-4">
                   <div class="stats-card yellow">
-                    <p style="font-size: small">Late Attendance</p>
+                    <p style="font-size: small; font-weight: bold">
+                      Late Attendance
+                    </p>
                     <div class="stats">
                       <div class="progress-circle-container">
                         <div
@@ -384,7 +446,7 @@
                 </div>
                 <div class="col-4">
                   <div class="stats-card orange">
-                    <p style="font-size: small">Absent</p>
+                    <p style="font-size: small; font-weight: bold">Absent</p>
                     <div class="stats">
                       <div class="progress-circle-container">
                         <div
@@ -404,7 +466,13 @@
                 <h5 style="font-weight: bold">Yesterday</h5>
                 <div class="col-4">
                   <div class="stats-card green">
-                    <p style="font-size: small; margin-bottom: 10px">
+                    <p
+                      style="
+                        font-size: small;
+                        margin-bottom: 10px;
+                        font-weight: bold;
+                      "
+                    >
                       Attendance
                     </p>
                     <div class="stats">
@@ -423,7 +491,9 @@
                 </div>
                 <div class="col-4">
                   <div class="stats-card yellow">
-                    <p style="font-size: small">Late Attendance</p>
+                    <p style="font-size: small; font-weight: bold">
+                      Late Attendance
+                    </p>
                     <div class="stats">
                       <div class="progress-circle-container">
                         <div
@@ -440,7 +510,7 @@
                 </div>
                 <div class="col-4">
                   <div class="stats-card orange">
-                    <p style="font-size: small">Absent</p>
+                    <p style="font-size: small; font-weight: bold">Absent</p>
                     <div class="stats">
                       <div class="progress-circle-container">
                         <div
@@ -487,18 +557,6 @@
                   <tbody id="calendarBody"></tbody>
                 </table>
               </div>
-
-              <style>
-                .calendar .bg-today {
-                  background-color: #007bff;
-                  color: #fff;
-                  border-radius: 50%;
-                }
-                .calendar td {
-                  height: 50px;
-                  vertical-align: middle;
-                }
-              </style>
             </div>
           </div>
         </div>
