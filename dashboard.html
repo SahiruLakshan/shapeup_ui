@@ -1,0 +1,724 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dashboard</title>
+    <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f8f9fa;
+      }
+      .sidebar {
+        background-color: #fff;
+        height: 100vh;
+        padding: 20px;
+        border-right: 1px solid #e0e0e0;
+      }
+      .sidebar .nav-link {
+        color: #333;
+        font-weight: 500;
+      }
+      .sidebar .nav-link.active {
+        color: #007bff;
+      }
+      .sidebar .nav-link:hover {
+        color: #007bff;
+      }
+      .content {
+        padding: 20px;
+      }
+      .header {
+        background-color: #e3f2fd;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .header .search-bar {
+        width: 300px;
+      }
+      .header .user-info {
+        display: flex;
+        align-items: center;
+      }
+      .header .user-info img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+      .card {
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .card-header {
+        background-color: #fff;
+        border-bottom: none;
+        font-weight: bold;
+      }
+      .card-body {
+        padding: 10px;
+      }
+      .graph {
+        height: 400px;
+      }
+      .stats-card {
+        width: 150px; /* Adjust card width */
+        height: 150px; /* Adjust card height */
+        border-radius: 20px;
+        padding: 15px; /* Reduce padding */
+        color: #fff;
+        text-align: center;
+        display: flex;
+        flex-direction: column; /* Stack content vertically */
+        justify-content: center; /* Center vertically */
+        align-items: center; /* Center horizontally */
+        gap: 10px; /* Space between elements */
+      }
+
+      /* Specific Colors for Cards */
+      .stats-card.green {
+        background-color: #28a745;
+      }
+      .stats-card.yellow {
+        background-color: #ffc107;
+      }
+      .stats-card.orange {
+        background-color: #fd7e14;
+      }
+
+      /* Flexbox for Circle and Number */
+      .stats {
+        display: flex;
+        align-items: center; /* Align items vertically */
+        justify-content: center; /* Align items horizontally */
+        gap: 10px; /* Space between circle and number */
+      }
+      /* Progress Circle Container */
+      .progress-circle-container {
+        width: 50px; /* Adjust circle size */
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Progress Circle Styles */
+      .progress-circle {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: conic-gradient(
+          #fff 0%,
+          #fff 25%,
+          /* Dynamic progress color (25%) */ transparent 25%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      /* Inner Circle Background */
+      .progress-circle:after {
+        content: "";
+        position: absolute;
+        width: 32px; /* Inner circle size */
+        height: 32px;
+        background-color: var(--circle-color, #28a745);
+        border-radius: 50%;
+      }
+
+      /* Percentage Text Inside Circle */
+      .progress-circle span {
+        position: absolute;
+        font-size: 12px;
+        color: #fff; /* Text color */
+        z-index: 10;
+      }
+
+      .calendar td {
+        height: 50px;
+        vertical-align: middle;
+      }
+
+      .bg-today {
+        background-color: #007bff;
+        color: white;
+        border-radius: 50%;
+      }
+
+      .calendar {
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #e3f2fd;
+      }
+      .calendar .btn {
+        background-color: #fff;
+        border: none;
+        color: #007bff;
+      }
+      .calendar .btn:hover {
+        background-color: #007bff;
+        color: #fff;
+      }
+      .chart-container {
+        width: 80%;
+        height: 400px;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 992px) {
+        .header .search-bar {
+          width: 200px;
+        }
+        .sidebar {
+          height: auto;
+          border-right: none;
+        }
+        .content {
+          padding: 10px;
+        }
+      }
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .header .search-bar {
+          width: 100%;
+          margin-top: 10px;
+        }
+        .header .user-info {
+          margin-top: 10px;
+        }
+        .sidebar {
+          display: none;
+        }
+        .content {
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="d-flex flex-column flex-lg-row">
+      <div class="sidebar p-3">
+        <div class="text-center mb-4">
+          <img
+            alt="ShapeUP Logo"
+            height="50"
+            src="https://storage.googleapis.com/a1aa/image/fdXeme8ymvX1To2VwKXpZyG8MaL3S4HHzVQ5PL4Q20dKLmAoA.jpg"
+            width="100"
+          />
+        </div>
+        <nav class="nav flex-column">
+          <a class="nav-link active" href="#"
+            ><i class="bi bi-house-door"></i> Dashboard
+          </a>
+          <a class="nav-link" href="#"
+            ><i class="bi bi-building"></i> Organization
+          </a>
+          <a class="nav-link" href="#"
+            ><i class="bi bi-folder-fill"></i> Employee Management
+          </a>
+          <a class="nav-link" href="#"
+            ><i class="bi bi-calendar"></i> Attendance &amp; Leave
+          </a>
+          <a class="nav-link" href="#"
+            ><i class="bi bi-clock"></i> Shift Management
+          </a>
+          <a class="nav-link" href="#"><i class="bi bi-book"></i> Reports </a>
+          <a class="nav-link" href="#"><i class="bi bi-cash"></i> Payroll </a>
+          <a class="nav-link" href="#"
+            ><i class="bi bi-collection"></i> KPI Management
+          </a>
+          <a class="nav-link" href="#"
+            ><i class="bi bi-person-circle"></i> User Account Summary
+          </a>
+          <a class="nav-link" href="#"
+            ><i class="bi bi-person-square"></i> Administrator
+          </a>
+        </nav>
+      </div>
+      <div class="content flex-grow-1">
+        <div class="header d-flex justify-content-between align-items-center">
+          <div>
+            <h5>
+              Hello
+              <span class="text-primary"> User </span>
+              , welcome back!
+            </h5>
+          </div>
+          <div class="search-bar">
+            <input class="form-control" placeholder="Search" type="text" />
+          </div>
+          <div class="d-flex align-items-center">
+            <a class="text-decoration-none text-dark me-3" href="#"> Home </a>
+            <a class="text-decoration-none text-dark me-3" href="#">
+              Contact Us
+            </a>
+            <a class="text-decoration-none text-dark me-3" href="#">
+              <i class="fas fa-bell"> </i>
+            </a>
+          </div>
+          <div class="user-info">
+            <div class="dropdown">
+              <a
+                aria-expanded="false"
+                class="d-flex align-items-center text-decoration-none text-dark dropdown-toggle"
+                data-bs-toggle="dropdown"
+                href="#"
+                id="userDropdown"
+              >
+                <img
+                  alt="User Image"
+                  height="40"
+                  src="https://storage.googleapis.com/a1aa/image/Zgjk9U9UeZVcBqnKcRT5G244fEXqhACluBK5zcs55VQoFTAUA.jpg"
+                  width="40"
+                />
+                <span> Admin </span>
+              </a>
+              <ul
+                aria-labelledby="userDropdown"
+                class="dropdown-menu dropdown-menu-end"
+              >
+                <li>
+                  <a class="dropdown-item" href="#"> Profile </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"> Logout </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <h3>Dashboard</h3>
+          <div class="row mt-4">
+            <div class="col-lg-7">
+              <div class="card mb-5 graph">
+                <div class="card-body">
+                  <div class="container mt-5">
+                    <h4 class="text-center">Attendance of the Employees</h4>
+                    <div class="chart-container">
+                      <canvas id="attendanceChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card graph">
+                <div class="card-body">
+                  <div class="container mt-5">
+                    <h4 class="text-center">Attendance of the Employees</h4>
+                    <div class="chart-container">
+                      <canvas id="lineChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <h5>Total Employees</h5>
+                  <h1 class="display-4">22</h1>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <h5 style="font-weight: bold">Today</h5>
+                <div class="col-4">
+                  <div class="stats-card green">
+                    <p style="font-size: small; margin-bottom: 10px">
+                      Attendance
+                    </p>
+                    <div class="stats">
+                      <div class="progress-circle-container">
+                        <div
+                          class="progress-circle green"
+                          data-progress="25"
+                          data-color="#28a745"
+                        >
+                          <span>25%</span>
+                        </div>
+                      </div>
+                      <h3 style="font-size: large; margin: 0">12</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="stats-card yellow">
+                    <p style="font-size: small">Late Attendance</p>
+                    <div class="stats">
+                      <div class="progress-circle-container">
+                        <div
+                          class="progress-circle yellow"
+                          data-progress="75"
+                          data-color="#ffc107"
+                        >
+                          <span>75%</span>
+                        </div>
+                      </div>
+                      <h3 style="font-size: large; margin: 0">05</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="stats-card orange">
+                    <p style="font-size: small">Absent</p>
+                    <div class="stats">
+                      <div class="progress-circle-container">
+                        <div
+                          class="progress-circle orange"
+                          data-progress="75"
+                          data-color="#fd7e14"
+                        >
+                          <span>75%</span>
+                        </div>
+                      </div>
+                      <h3 style="font-size: large; margin: 0">05</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-4">
+                <h5 style="font-weight: bold">Yesterday</h5>
+                <div class="col-4">
+                  <div class="stats-card green">
+                    <p style="font-size: small; margin-bottom: 10px">
+                      Attendance
+                    </p>
+                    <div class="stats">
+                      <div class="progress-circle-container">
+                        <div
+                          class="progress-circle green"
+                          data-progress="25"
+                          data-color="#28a745"
+                        >
+                          <span>25%</span>
+                        </div>
+                      </div>
+                      <h3 style="font-size: large; margin: 0">12</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="stats-card yellow">
+                    <p style="font-size: small">Late Attendance</p>
+                    <div class="stats">
+                      <div class="progress-circle-container">
+                        <div
+                          class="progress-circle yellow"
+                          data-progress="75"
+                          data-color="#ffc107"
+                        >
+                          <span>75%</span>
+                        </div>
+                      </div>
+                      <h3 style="font-size: large; margin: 0">05</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="stats-card orange">
+                    <p style="font-size: small">Absent</p>
+                    <div class="stats">
+                      <div class="progress-circle-container">
+                        <div
+                          class="progress-circle orange"
+                          data-progress="75"
+                          data-color="#fd7e14"
+                        >
+                          <span>75%</span>
+                        </div>
+                      </div>
+                      <h3 style="font-size: large; margin: 0">05</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h5 style="font-weight: bold">Date</h5>
+              <div class="calendar">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3"
+                >
+                  <button class="btn btn-outline-primary btn-sm" id="prevMonth">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <div>
+                    <span id="monthLabel" class="fw-bold">April</span>
+                    <span id="yearLabel" class="fw-bold">2024</span>
+                  </div>
+                  <button class="btn btn-outline-primary btn-sm" id="nextMonth">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                <table class="table table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th>Mo</th>
+                      <th>Tu</th>
+                      <th>We</th>
+                      <th>Th</th>
+                      <th>Fr</th>
+                      <th>Sa</th>
+                      <th>Su</th>
+                    </tr>
+                  </thead>
+                  <tbody id="calendarBody"></tbody>
+                </table>
+              </div>
+
+              <style>
+                .calendar .bg-today {
+                  background-color: #007bff;
+                  color: #fff;
+                  border-radius: 50%;
+                }
+                .calendar td {
+                  height: 50px;
+                  vertical-align: middle;
+                }
+              </style>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Chart.js Data and Configuration
+      const ctx = document.getElementById("attendanceChart").getContext("2d");
+      const attendanceChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: [
+            "11.12.2024",
+            "12.12.2024",
+            "13.12.2024",
+            "14.12.2024",
+            "15.12.2024",
+          ], // Dates
+          datasets: [
+            {
+              label: "Attendance",
+              data: [8, 7, 6, 9, 8], // Attendance values for each date
+              backgroundColor: "#28a745", // Green for attendance
+              borderColor: "#28a745",
+              borderWidth: 1,
+            },
+            {
+              label: "Absents",
+              data: [2, 3, 4, 1, 2], // Absents values for each date
+              backgroundColor: "#fd7e14", // Orange for absents
+              borderColor: "#fd7e14",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              beginAtZero: true,
+              title: {
+                display: false,
+                text: "Date",
+              },
+            },
+            y: {
+              beginAtZero: true,
+              max: 10, // Y-axis max value
+              title: {
+                display: false,
+                text: "Number of People",
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              position: "top",
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return context.dataset.label + ": " + context.raw;
+                },
+              },
+            },
+          },
+        },
+      });
+    </script>
+
+    <script>
+      var ctx2 = document.getElementById("lineChart").getContext("2d");
+      var attendanceChart2 = new Chart(ctx2, {
+        type: "line", // Specifies a line chart
+        data: {
+          labels: [
+            "11.12.2024",
+            "12.12.2024",
+            "13.12.2024",
+            "14.12.2024",
+            "15.12.2024",
+            "16.12.2024",
+          ], // X-axis labels (dates)
+          datasets: [
+            {
+              label: "Attendance", // Label for Attendance dataset
+              data: [8, 6, 9, 7, 8, 6], // Y-axis values for Attendance
+              borderColor: "rgba(0, 123, 255, 1)", // Blue color for the Attendance line
+              backgroundColor: "rgba(0, 123, 255, 0.2)", // Light blue fill color
+              fill: true, // Fill the area under the line
+              tension: 0.4, // Controls the curve of the line
+            },
+            {
+              label: "Absents", // Label for Absents dataset
+              data: [2, 4, 1, 3, 2, 4], // Y-axis values for Absents
+              borderColor: "rgba(255, 99, 132, 1)", // Red color for the Absents line
+              backgroundColor: "rgba(255, 99, 132, 0.2)", // Light red fill color
+
+              fill: true, // Fill the area under the line
+              tension: 0.4, // Controls the curve of the line
+            },
+          ],
+        },
+        options: {
+          responsive: true, // Ensures the chart is responsive
+          scales: {
+            y: {
+              beginAtZero: true, // Starts the Y-axis from 0
+              min: 0, // Minimum value on Y-axis
+              max: 10, // Maximum value on Y-axis
+            },
+          },
+          plugins: {
+            legend: {
+              position: "top", // Position the legend at the top
+            },
+          },
+        },
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const circles = document.querySelectorAll(".progress-circle");
+
+        circles.forEach((circle) => {
+          const progress = parseInt(circle.getAttribute("data-progress"), 10);
+
+          // Set the conic gradient based on the progress value
+          const color = window
+            .getComputedStyle(circle)
+            .getPropertyValue("background-color");
+          circle.style.background = `conic-gradient(
+          #fff 0% ${progress}%, /* White arc for the progress */
+          #83c683 ${progress}% 100% /* Background color */
+        )`;
+
+          // Update the text inside the circle
+          const span = circle.querySelector("span");
+          if (span) {
+            span.textContent = `${progress}%`;
+          }
+        });
+      });
+    </script>
+    <script>
+      document.querySelectorAll(".progress-circle").forEach((circle) => {
+        const color = circle.getAttribute("data-color");
+
+        circle.style.setProperty("--circle-color", color);
+      });
+    </script>
+    <script>
+      const calendarBody = document.getElementById("calendarBody");
+      const monthLabel = document.getElementById("monthLabel");
+      const yearLabel = document.getElementById("yearLabel");
+
+      let currentDate = new Date();
+
+      function renderCalendar(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const today = new Date();
+        const firstDay = new Date(year, month, 1).getDay(); // 0 (Sun) - 6 (Sat)
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        monthLabel.textContent = date.toLocaleString("default", {
+          month: "long",
+        });
+        yearLabel.textContent = year;
+
+        calendarBody.innerHTML = "";
+
+        let day = 1;
+        const startDay = (firstDay === 0 ? 7 : firstDay) - 1; // Adjust to make Monday the first day
+        const totalCells = Math.ceil((startDay + daysInMonth) / 7) * 7;
+
+        for (let i = 0; i < totalCells; i++) {
+          const row = Math.floor(i / 7);
+          if (!calendarBody.rows[row]) {
+            calendarBody.insertRow();
+          }
+
+          const cell = calendarBody.rows[row].insertCell();
+
+          if (i >= startDay && day <= daysInMonth) {
+            cell.textContent = day;
+
+            if (
+              today.getFullYear() === year &&
+              today.getMonth() === month &&
+              today.getDate() === day
+            ) {
+              cell.classList.add("bg-today");
+            }
+
+            day++;
+          } else {
+            cell.textContent = "";
+          }
+        }
+      }
+
+      document.getElementById("prevMonth").addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar(currentDate);
+      });
+
+      document.getElementById("nextMonth").addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar(currentDate);
+      });
+
+      // Initial render
+      renderCalendar(currentDate);
+    </script>
+
+    <script
+      crossorigin="anonymous"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+3i4l0I4zV9K5Gk5t5f5v5f5f5f5f"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    ></script>
+  </body>
+</html>
