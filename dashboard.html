@@ -55,10 +55,24 @@
       .content {
         padding: 20px;
       }
+      /* General Header Style */
       .header {
         background-color: #e3f2fd;
-        padding: 10px 20px;
+        padding: 0 20px;
         border-radius: 15px;
+        height: 50px;
+      }
+
+      .right-section .right {
+        display: inline-flex;
+        align-items: center;
+        font-size: 16px;
+        height: 100%;
+        margin-right: 60px;
+      }
+
+      .right-section .right:last-child {
+        margin-right: 0; /* Remove margin for the last element to avoid extra space */
       }
 
       .header a {
@@ -77,6 +91,22 @@
       .header .position-relative span {
         width: 10px;
         height: 10px;
+      }
+
+      /* Center Alignment for Second Nav */
+      .col-2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px; /* Matches the height of the header */
+      }
+
+      .header-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
       }
 
       .card {
@@ -302,52 +332,64 @@
         </nav>
       </div>
       <div class="content flex-grow-1">
-        <nav class="header d-flex justify-content-between align-items-center">
-          <!-- Left Section -->
-          <div class="left-section d-flex align-items-center">
-            <a class="text-decoration-none text-primary me-4" href="#">Home</a>
-            <a class="text-decoration-none text-primary me-4" href="#"
-              >Contact Us</a
-            >
-            <a
-              class="text-decoration-none text-dark position-relative"
-              href="#"
-            >
-              <i class="fas fa-bell"></i>
-              <!-- Notification Badge -->
-              <span
-                class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
-              ></span>
-            </a>
-          </div>
+        <div class="headernav">
+          <div class="row">
+            <!-- First Nav -->
+            <div class="col-10">
+              <nav class="header d-flex justify-content-end align-items-center">
+                <div class="right-section d-flex align-items-center">
+                  <a class="text-decoration-none text-primary right" href="#"
+                    >Home</a
+                  >
+                  <a class="text-decoration-none text-primary right" href="#"
+                    >Contact Us</a
+                  >
+                  <a
+                    class="text-decoration-none text-dark position-relative right"
+                    href="#"
+                  >
+                    <i class="fas fa-bell"></i>
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
+                    ></span>
+                  </a>
+                </div>
+              </nav>
+            </div>
 
-          <!-- Right Section -->
-          <div class="right-section user-info d-flex align-items-center">
-            <div class="dropdown">
-              <a
-                aria-expanded="false"
-                class="d-flex align-items-center text-decoration-none text-dark dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                id="userDropdown"
-              >
-                <img
-                  alt="User Image"
-                  src="https://storage.googleapis.com/a1aa/image/Zgjk9U9UeZVcBqnKcRT5G244fEXqhACluBK5zcs55VQoFTAUA.jpg"
-                  class="rounded-circle"
-                />
-                <span class="ms-2">Admin</span>
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="userDropdown"
-              >
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
-              </ul>
+            <!-- Second Nav -->
+            <div class="col-2 d-flex justify-content-center align-items-center">
+              <nav class="header header-center">
+                <div class="right-section user-info d-flex align-items-center">
+                  <div class="dropdown">
+                    <a
+                      aria-expanded="false"
+                      class="d-flex align-items-center text-decoration-none text-dark dropdown-toggle"
+                      data-bs-toggle="dropdown"
+                      href="#"
+                      id="userDropdown"
+                    >
+                      <img
+                        alt="User Image"
+                        src="https://storage.googleapis.com/a1aa/image/Zgjk9U9UeZVcBqnKcRT5G244fEXqhACluBK5zcs55VQoFTAUA.jpg"
+                        class="rounded-circle"
+                      />
+                      <span class="ms-2">Admin</span>
+                    </a>
+                    <ul
+                      class="dropdown-menu dropdown-menu-end"
+                      aria-labelledby="userDropdown"
+                    >
+                      <li><a class="dropdown-item" href="#">Profile</a></li>
+                      <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
             </div>
           </div>
-        </nav>
+        </div>
+
         <div class="mt-4">
           <h6 style="color: #007bff">Hello <b>User</b>, Welcome Back!</h6>
         </div>
