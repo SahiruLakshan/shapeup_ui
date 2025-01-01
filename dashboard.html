@@ -17,6 +17,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -36,12 +37,12 @@
         font-weight: 500;
         display: flex;
         align-items: center;
-        margin-bottom: 15px; /* Increases space between menu items */
+        margin-bottom: 15px;
       }
 
       .sidebar .nav-link i {
-        margin-right: 15px; /* Adds space between the icon and the text */
-        font-size: 18px; /* Optional: Adjust icon size */
+        margin-right: 15px;
+        font-size: 18px;
       }
 
       .sidebar .nav-link.active {
@@ -55,7 +56,7 @@
       .content {
         padding: 20px;
       }
-      /* General Header Style */
+
       .header {
         background-color: #e3f2fd;
         padding: 0 20px;
@@ -72,7 +73,7 @@
       }
 
       .right-section .right:last-child {
-        margin-right: 0; /* Remove margin for the last element to avoid extra space */
+        margin-right: 0;
       }
 
       .header a {
@@ -93,12 +94,11 @@
         height: 10px;
       }
 
-      /* Center Alignment for Second Nav */
       .col-2 {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 50px; /* Matches the height of the header */
+        height: 50px;
       }
 
       .header-center {
@@ -113,28 +113,59 @@
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
+
       .card-header {
         background-color: #fff;
         border-bottom: none;
         font-weight: bold;
       }
+
       .card-body {
         padding: 10px;
       }
+
       .calendar .bg-today {
         background-color: #007bff;
         color: #fff;
         border-radius: 50%;
       }
+
       .calendar td {
         height: 50px;
         vertical-align: middle;
       }
+
       .employee {
-        background-color: #007bff;
+        background: linear-gradient(135deg, #007bff 70%, #4da7ff 100%);
         border-radius: 20px;
         color: #fff;
+        position: relative;
+        overflow: hidden;
       }
+
+      /* Optional: Add subtle corner effects */
+      .employee::before {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        top: -20px;
+        left: -20px;
+      }
+
+      .employee::after {
+        content: "";
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        bottom: -40px;
+        right: -40px;
+      }
+
       .search-bar {
         background-color: #f0f8ff; /* Light blue background */
         border-radius: 20px; /* Rounded corners */
@@ -154,6 +185,7 @@
       .graph {
         height: 400px;
       }
+
       .stats-card {
         width: 150px; /* Adjust card width */
         height: 150px; /* Adjust card height */
@@ -248,6 +280,7 @@
         border-radius: 10px;
         background-color: #e3f2fd;
       }
+
       .calendar .btn {
         background-color: #fff;
         border: none;
@@ -257,6 +290,7 @@
         background-color: #007bff;
         color: #fff;
       }
+
       .chart-container {
         width: 80%;
         height: 400px;
@@ -395,13 +429,14 @@
         </div>
         <div class="mt-4">
           <div class="d-flex align-items-center justify-content-between">
-            <h3 class="me-3">Dashboard</h3>
+            <h3 style="margin-right: 18rem">Dashboard</h3>
             <div class="w-100">
               <input
                 type="text"
                 class="form-control search-bar"
                 placeholder="Search"
                 aria-label="Search"
+                style="margin-left: 2rem"
               />
             </div>
           </div>
@@ -604,217 +639,17 @@
         </div>
       </div>
     </div>
-    <script>
-      // Chart.js Data and Configuration
-      const ctx = document.getElementById("attendanceChart").getContext("2d");
-      const attendanceChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: [
-            "11.12.2024",
-            "12.12.2024",
-            "13.12.2024",
-            "14.12.2024",
-            "15.12.2024",
-          ], // Dates
-          datasets: [
-            {
-              label: "Attendance",
-              data: [8, 7, 6, 9, 8], // Attendance values for each date
-              backgroundColor: "#28a745", // Green for attendance
-              borderColor: "#28a745",
-              borderWidth: 1,
-            },
-            {
-              label: "Absents",
-              data: [2, 3, 4, 1, 2], // Absents values for each date
-              backgroundColor: "#fd7e14", // Orange for absents
-              borderColor: "#fd7e14",
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: {
-              beginAtZero: true,
-              title: {
-                display: false,
-                text: "Date",
-              },
-            },
-            y: {
-              beginAtZero: true,
-              max: 10, // Y-axis max value
-              title: {
-                display: false,
-                text: "Number of People",
-              },
-            },
-          },
-          plugins: {
-            legend: {
-              position: "top",
-            },
-            tooltip: {
-              callbacks: {
-                label: function (context) {
-                  return context.dataset.label + ": " + context.raw;
-                },
-              },
-            },
-          },
-        },
-      });
-    </script>
-
-    <script>
-      var ctx2 = document.getElementById("lineChart").getContext("2d");
-      var attendanceChart2 = new Chart(ctx2, {
-        type: "line", // Specifies a line chart
-        data: {
-          labels: [
-            "11.12.2024",
-            "12.12.2024",
-            "13.12.2024",
-            "14.12.2024",
-            "15.12.2024",
-            "16.12.2024",
-          ], // X-axis labels (dates)
-          datasets: [
-            {
-              label: "Attendance", // Label for Attendance dataset
-              data: [8, 6, 9, 7, 8, 6], // Y-axis values for Attendance
-              borderColor: "rgba(0, 123, 255, 1)", // Blue color for the Attendance line
-              backgroundColor: "rgba(0, 123, 255, 0.2)", // Light blue fill color
-              fill: true, // Fill the area under the line
-              tension: 0.4, // Controls the curve of the line
-            },
-            {
-              label: "Absents", // Label for Absents dataset
-              data: [2, 4, 1, 3, 2, 4], // Y-axis values for Absents
-              borderColor: "rgba(255, 99, 132, 1)", // Red color for the Absents line
-              backgroundColor: "rgba(255, 99, 132, 0.2)", // Light red fill color
-
-              fill: true, // Fill the area under the line
-              tension: 0.4, // Controls the curve of the line
-            },
-          ],
-        },
-        options: {
-          responsive: true, // Ensures the chart is responsive
-          scales: {
-            y: {
-              beginAtZero: true, // Starts the Y-axis from 0
-              min: 0, // Minimum value on Y-axis
-              max: 10, // Maximum value on Y-axis
-            },
-          },
-          plugins: {
-            legend: {
-              position: "top", // Position the legend at the top
-            },
-          },
-        },
-      });
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const circles = document.querySelectorAll(".progress-circle");
-
-        circles.forEach((circle) => {
-          const progress = parseInt(circle.getAttribute("data-progress"), 10);
-
-          // Set the conic gradient based on the progress value
-          const color = window
-            .getComputedStyle(circle)
-            .getPropertyValue("background-color");
-          circle.style.background = `conic-gradient(
-          #fff 0% ${progress}%, /* White arc for the progress */
-          #83c683 ${progress}% 100% /* Background color */
-        )`;
-
-          // Update the text inside the circle
-          const span = circle.querySelector("span");
-          if (span) {
-            span.textContent = `${progress}%`;
-          }
-        });
-      });
-    </script>
-    <script>
-      document.querySelectorAll(".progress-circle").forEach((circle) => {
-        const color = circle.getAttribute("data-color");
-
-        circle.style.setProperty("--circle-color", color);
-      });
-    </script>
-    <script>
-      const calendarBody = document.getElementById("calendarBody");
-      const monthLabel = document.getElementById("monthLabel");
-      const yearLabel = document.getElementById("yearLabel");
-
-      let currentDate = new Date();
-
-      function renderCalendar(date) {
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        const today = new Date();
-        const firstDay = new Date(year, month, 1).getDay(); // 0 (Sun) - 6 (Sat)
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        monthLabel.textContent = date.toLocaleString("default", {
-          month: "long",
-        });
-        yearLabel.textContent = year;
-
-        calendarBody.innerHTML = "";
-
-        let day = 1;
-        const startDay = (firstDay === 0 ? 7 : firstDay) - 1; // Adjust to make Monday the first day
-        const totalCells = Math.ceil((startDay + daysInMonth) / 7) * 7;
-
-        for (let i = 0; i < totalCells; i++) {
-          const row = Math.floor(i / 7);
-          if (!calendarBody.rows[row]) {
-            calendarBody.insertRow();
-          }
-
-          const cell = calendarBody.rows[row].insertCell();
-
-          if (i >= startDay && day <= daysInMonth) {
-            cell.textContent = day;
-
-            if (
-              today.getFullYear() === year &&
-              today.getMonth() === month &&
-              today.getDate() === day
-            ) {
-              cell.classList.add("bg-today");
-            }
-
-            day++;
-          } else {
-            cell.textContent = "";
-          }
-        }
-      }
-
-      document.getElementById("prevMonth").addEventListener("click", () => {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar(currentDate);
-      });
-
-      document.getElementById("nextMonth").addEventListener("click", () => {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        renderCalendar(currentDate);
-      });
-
-      // Initial render
-      renderCalendar(currentDate);
-    </script>
-
+    <script src="graph.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
     <script
       crossorigin="anonymous"
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+3i4l0I4zV9K5Gk5t5f5v5f5f5f5f"
